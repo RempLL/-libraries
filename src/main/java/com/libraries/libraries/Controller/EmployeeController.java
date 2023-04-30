@@ -1,5 +1,7 @@
-package com.libraries.libraries;
+package com.libraries.libraries.Controller;
 
+import com.libraries.libraries.Service.Employee;
+import com.libraries.libraries.Service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
