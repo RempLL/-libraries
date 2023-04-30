@@ -1,5 +1,7 @@
-package com.libraries.libraries;
+package com.libraries.libraries.Service;
 
+import com.libraries.libraries.Exception.EmployeeAlreadyAddedException;
+import com.libraries.libraries.Exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -9,6 +11,8 @@ import java.util.Map;
 
 @Service
 public class EmployeeService {
+
+    private final ValidateService validateService;
     Map<String, Employee> employee = new HashMap<>(Map.of(
             "1", new Employee("Альберт", "Миронов", 4, 20000),
             "2", new Employee("Виктор", "Меньшиков", 3, 40000),
@@ -21,8 +25,12 @@ public class EmployeeService {
             "9", new Employee("Роберт", "Иванов", 4, 60000),
             "10", new Employee("Павел", "Кучин", 1, 23000)));
 
+    public EmployeeService(ValidateService validateService) {
+        this.validateService = validateService;
+    }
+
     public Employee addEmployee(String name, String surname, Integer department, Integer salary) {
-        Employee newEmployee = new Employee(name, surname, department, salary);
+        Employee newEmployee = new Employee(validateService.validateName(name), validateService.validateSurname(surname), department, salary);
         if (employee.containsValue(newEmployee)) {
             throw new EmployeeAlreadyAddedException();
         }
